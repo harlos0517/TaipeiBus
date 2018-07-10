@@ -12,8 +12,27 @@ body {
 	height: 100vh;
 }
 
-#mapcontainer {
-	width: 1600px;
-	height: 900px;
+#mapwindow {
+	width: 100%;
+	height: 100vh;
 	overflow: auto;
+}
+
+#taipeiMap {
+	fill: #FFFFFF;
+}
+
+#taipeiMap path {
+	stroke-width: 0.1px;
+	stroke: #000000;
+}
+
+#stops {
+	fill: #000000;
+}
+
+#routes {
+	fill: none;
+	stroke-width: 1px;
+	stroke: #660000;
 }

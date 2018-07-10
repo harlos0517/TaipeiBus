@@ -6,10 +6,9 @@
 	<title>Taipei Bus</title>
 	<link href="structure.css" rel="stylesheet"/>
 	<link href="index.css" rel="stylesheet"/>
-	<link href="wireframe.css" rel="stylesheet"/>
+	<!--link href="wireframe.css" rel="stylesheet"/-->
 	<!--link href="mobile.css" rel="stylesheet"/-->
 	<script src="general.js"></script>
-	<script src="https://d3js.org/d3.v4.min.js"></script>
 	<meta property="og:url" content="http://deemo.life/TaipeiBus">
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="Taipei Bus">
@@ -27,7 +26,14 @@
 </head>
 <body><div id="bodywrap" class="flex center">
 
-	<div id="mapcontainer"></div>
+	<div id="mapwindow"><div id="mapcontainer">
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="gunzip.min.js"></script>
+		<script src="taipeiMap.js"></script>
+		<script src="metrostop.js"></script>
+		<script src="metroroute.js"></script>
+		<script src="map.js"></script>
+	</div>
 
 	<script src="index.js"></script>
 </div></body>
