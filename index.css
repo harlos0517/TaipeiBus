@@ -1,0 +1,19 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+/* Fonts */
+body {
+	font-family: 'Noto Sans TC', sans-serif;
+	font-weight: 300;
+	color: #3C3C3C;
+	background-color: #EEEEEE;
+}
+
+#bodywrap {
+	height: 100vh;
+}
+
+#mapcontainer {
+	width: 1600px;
+	height: 900px;
+	overflow: auto;
+}

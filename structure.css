@@ -1,0 +1,68 @@
+body * {
+	box-sizing: border-box;
+}
+
+a, input, textarea, select, button {
+	font-size: inherit;
+	line-height: inherit;
+	border: none;
+	font-family: inherit;
+	color: inherit;
+	text-decoration: none;
+}
+
+ol, ul{
+	padding-left: 1.5em;
+}
+
+b, h2 {
+	font-weight: 500;
+}
+
+br.hide{
+	display: none;
+}
+
+body {
+	margin: 0;
+	font-size: 1.6vw;
+/*	user-select: none;*/
+}
+
+#bodywrap{
+	width: 100%;
+	overflow-x: hidden;
+}
+
+.flex {
+	display: flex;
+}
+
+.column {
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+}
+
+.row {
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+}
+
+.fullscreen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+}
+
+.center {
+	-webkit-align-items: center;
+	    -ms-align-items: center;
+	        align-items: center;
+	-webkit-justify-content: center;
+	    -ms-justify-content: center;
+	        justify-content: center;
+}
