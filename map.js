@@ -25,26 +25,20 @@ stop.BusInfo.forEach(function(e,i,a){
 })
 */
 
-var stops = map.append('g').attr('id','stops')
-metrostop.features.forEach(function(e,i,a){
-	addStop(e.properties.lon,e.properties.lat,stops)
-})
-
 var routes = map.append('g').attr('id','routes')
 metroroute.features.forEach(function(e,i,a){
 	var geo = e.geometry
-	if(geo.type === 'MultiLineString') {
-		geo.coordinates.forEach(function(e,i,a){
-			routes.append('path').data([e]).attr('d',d3.line()
-				.x(function(d){return lontrans(d[0])})
-				.y(function(d){return lattrans(d[1])}))
-		})
-	}
-	else {
-		routes.append('path').data([geo.coordinates]).attr('d',d3.line()
+	var thisroute = routes.append('g').attr('id',e.properties.RouteName)
+	geo.coordinates.forEach(function(ce,ci,ca){
+		thisroute.append('path').data([ce]).style('stroke',e.properties.color).style('stroke-width',2).attr('d',d3.line()
 			.x(function(d){return lontrans(d[0])})
 			.y(function(d){return lattrans(d[1])}))
-	}
+	})
+})
+
+var stops = map.append('g').attr('id','stops')
+metrostop.features.forEach(function(e,i,a){
+	addStop(e.properties.lon,e.properties.lat,stops)
 })
 
 // addStop(121.3,25.29,map) //testing
