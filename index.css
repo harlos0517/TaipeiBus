@@ -27,12 +27,23 @@ body {
 	stroke: #000000;
 }
 
-#stops {
+#stops circle{
 	fill: #000000;
+}
+
+#stops text {
+	fill: #000000;
+	font-size: 8px;
+	background-color: rgba(255,255,255,.5);
 }
 
 #routes {
 	fill: none;
-	stroke-width: 1px;
-	stroke: #660000;
+	stroke-width: 2px;
+}
+
+#gridlines {
+	fill: none;
+	stroke: #888888;
+	stroke-width: .5px;
 }
