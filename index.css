@@ -27,19 +27,20 @@ body {
 	stroke: #000000;
 }
 
-#stops circle{
-	fill: #000000;
+circle.stop{
+	stroke-width: 2px;
+	fill: #FFFFFF;
 }
 
-#stops text {
+#stopNames text {
 	fill: #000000;
 	font-size: 8px;
 	background-color: rgba(255,255,255,.5);
 }
 
-#routes {
+path.section {
 	fill: none;
-	stroke-width: 2px;
+	stroke-width: 3px;
 }
 
 #gridlines {
@@ -47,3 +48,4 @@ body {
 	stroke: #888888;
 	stroke-width: .5px;
 }
+
