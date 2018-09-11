@@ -13,9 +13,9 @@ body {
 }
 
 #mapwindow {
-	width: 100%;
 	height: 100vh;
 	overflow: auto;
+	flex: 5 0 0;
 }
 
 #taipeiMap {
@@ -27,15 +27,30 @@ body {
 	stroke: #000000;
 }
 
-circle.stop{
-	stroke-width: 2px;
-	fill: #FFFFFF;
+#stops circle{
+	fill: #000000;
+	transition: 100ms;
 }
 
-#stopNames text {
+#stops text {
 	fill: #000000;
 	font-size: 8px;
 	background-color: rgba(255,255,255,.5);
+	font-weight: 500;
+	transition: 100ms;
+}
+
+#stops>g:hover>circle {
+	r: 4;
+}
+
+#stops>g:hover>text {
+	font-size: 12px;
+}
+
+circle.stop{
+	stroke-width: 2px;
+	fill: #FFFFFF;
 }
 
 path.section {
@@ -49,3 +64,28 @@ path.section {
 	stroke-width: .5px;
 }
 
+#datasheet {
+	height: 100vh;
+	flex: 5 0 0;
+}
+
+#labels {
+	background-color: #CCCCCC;
+}
+
+.label {
+	padding: .5em;
+}
+
+.label:hover {
+	background-color: #FFFFFF;
+}
+
+#tablearea {
+	flex: 1 0 0;
+	overflow: auto;
+}
+
+.tabledata {
+	height: 100%;
+}

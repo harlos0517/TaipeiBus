@@ -24,17 +24,47 @@
 	<link href="favicon76.png" rel="apple-touch-icon" sizes="76x76">
 
 </head>
-<body><div id="bodywrap" class="flex center">
+<body><div id="bodywrap" class="flex center row">
 
 	<div id="mapwindow"><div id="mapcontainer">
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="gunzip.min.js"></script>
 		<script src="taipeiMap.js"></script>
-		<script src="metroStop.js"></script>
-		<script src="metroroute.js"></script>
-		<script src="metroSection.js"></script>
-		<script src="metro.js"></script>
 		<script src="map.js"></script>
+	</div></div>
+
+	<div id="datasheet" class="flex column">
+		<div id="labels" class="flex row">
+			<div id="metroStop-label" class="label">metroStop</div>
+			<div id="metroSection-label" class="label">metroSection</div>
+			<div id="metroRoute-label" class="label">metroRoute</div>
+		</div>
+		<div id="tablearea">
+			<div id="metroStop-table" class="tabledata">
+				<table><tbody>
+					<tr>
+						<th>id</th><th>code</th>
+						<th>name.zh</th><th>name.en</th><th>coord[0]</th><th>coord[1]</th>
+					</tr>
+				</tbody></table>
+			</div>
+			<!--div id="metroSection-table" class="tabledata">
+				<table><tbody>
+					<tr>
+						<th>id</th><th>startStation</th>
+						<th>endStation</th><th>reverseOf</th>
+					</tr>
+				</tbody></table>
+			</div>
+			<div id="metroRoute-table" class="tabledata">
+				<table><tbody>
+					<tr>
+						<th>id</th><th>length</th>
+						<th>color</th><th>lineName</th>
+					</tr>
+				</tbody></table>
+			</div-->
+		</div>
 	</div>
 
 	<script src="index.js"></script>

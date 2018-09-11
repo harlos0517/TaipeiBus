@@ -89,6 +89,7 @@ var metroStop = [
 	{"id":  85, "coordinates": [ 121.607158,25.072701 ], "code": "BR21", "name": { "zh": "葫洲", "en": "Huzhou" } },
 	{"id":  86, "coordinates": [ 121.611445,25.067147 ], "code": "BR22", "name": { "zh": "東湖", "en": "Donghu" } },
 	{"id":  87, "coordinates": [ 121.615953,25.059905 ], "code": "BR23", "name": { "zh": "南港軟體園區", "en": "Nangang Software Park" } },
+
 	{"id":  88, "coordinates": [ 121.509237,24.990045 ], "code": "O01" , "name": { "zh": "南勢角", "en": "Nanshijiao" } },
 	{"id":  89, "coordinates": [ 121.505113,24.993905 ], "code": "O02" , "name": { "zh": "景安", "en": "Jingan" } },
 	{"id":  90, "coordinates": [ 121.511231,25.002876 ], "code": "O03" , "name": { "zh": "永安市場", "en": "Yongan Market" } },

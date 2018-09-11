@@ -341,7 +341,7 @@ var metroSection = [
 	{"id":  95, "startStation": 48, "endStation":  49, "reverseOf":   0, "coordinates": []},
 	{"id":  96, "startStation": 49, "endStation":  48, "reverseOf":  95, "coordinates": []},
 	{"id":  97, "startStation": 49, "endStation":  50, "reverseOf":   0, "coordinates": []},
-	{"id":  98, "startStation": 50, "endStation":  49, "reverseOf":  97, "coordinates": []},//FLAG
+	{"id":  98, "startStation": 50, "endStation":  49, "reverseOf":  97, "coordinates": []},
 
 	{"id":  99, "startStation": 51, "endStation":  52, "reverseOf":   0, "coordinates": []},
 	{"id": 100, "startStation": 52, "endStation":  51, "reverseOf":  99, "coordinates": []},
