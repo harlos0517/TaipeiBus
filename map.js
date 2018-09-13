@@ -32,13 +32,6 @@ getData('metroStop',function(metroStop){
 	getData('metroRoute',function(metroRoute){
 		var routes = map.append('g').attr('id','routes')
 		function findStop   (_id){ return metroStop.find(function (x){ return (x._id==_id) }) }
-		function drawStop   (g,id,strokeColor,radius){
-			g.append('circle').attr('class','stop')
-				.attr('cx',lontrans(findStop(id).coordinates[0]))
-				.attr('cy',lattrans(findStop(id).coordinates[1]))
-				.attr('r',radius).style('stroke',strokeColor)
-		}
-
 		metroRoute.forEach(function(le,li,la){
 			var thisLine = routes.append('g')
 				.attr('id',le.lineName)
@@ -55,7 +48,10 @@ getData('metroStop',function(metroStop){
 					.y(function(d){return lattrans(findStop(d.stopId).coordinates[1])}))
 
 				re.stops.forEach(function(se,si,sa){
-					drawStop(thisStops,se.stopId,le.color,5)
+					thisStops.append('circle').attr('class','stop')
+						.attr('cx',lontrans(findStop(se.stopId).coordinates[0]))
+						.attr('cy',lattrans(findStop(se.stopId).coordinates[1]))
+						.attr('r',5).style('stroke',le.color)
 				})
 			})
 		})
