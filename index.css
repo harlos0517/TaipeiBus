@@ -27,12 +27,33 @@ body {
 	stroke: #000000;
 }
 
-#stops circle{
+#metroStops circle{
 	fill: #000000;
 	transition: 100ms;
 }
 
-#stops text {
+#metroStops text {
+	fill: #000000;
+	font-size: 16px;
+	background-color: rgba(255,255,255,.5);
+	font-weight: 500;
+	transition: 100ms;
+}
+
+#metroStops>g:hover>circle {
+	r: 4;
+}
+
+#metroStops>g:hover>text {
+	font-size: 20px;
+}
+
+#busStops circle{
+	fill: #000000;
+	transition: 100ms;
+}
+
+#busStops text {
 	fill: #000000;
 	font-size: 8px;
 	background-color: rgba(255,255,255,.5);
@@ -40,11 +61,11 @@ body {
 	transition: 100ms;
 }
 
-#stops>g:hover>circle {
+#busStops>g:hover>circle {
 	r: 4;
 }
 
-#stops>g:hover>text {
+#busStops>g:hover>text {
 	font-size: 12px;
 }
 
