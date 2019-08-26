@@ -15,48 +15,48 @@ function getData(e,f){
 	}
 }
 
-getData('metroStop',function(metroStop){
-	getData('metroRoute',function(metroRoute){
-		var metroRoutes = metro.append('g').attr('id','metroRoutes')
-		function findStop   (_id){ return metroStop.find(function (x){ return (x._id==_id) }) }
-		metroRoute.forEach(function(le,li,la){
-			var thisLine = metroRoutes.append('g')
-				.attr('id',le.lineName)
-				.attr('_id',le._id)
+//getData('metroStop',function(metroStop){
+//	getData('metroRoute',function(metroRoute){
+var metroRoutes = metro.append('g').attr('id','metroRoutes')
+function findStop (_id){ return metroStop.find(function (x){ return (x.id==_id) }) }
+metroRoute.forEach(function(le,li,la){
+	var thisLine = metroRoutes.append('g')
+		.attr('id',le.lineName)
+		.attr('_id',le._id)
 
-			le.routes.forEach(function(re,ri,ra){
-				var thisRoute = thisLine .append('g').attr('id',re.routeName+'-route')
-				var thisPaths = thisRoute.append('g').attr('id',re.routeName+'-paths')
-				var thisStops = thisRoute.append('g').attr('id',re.routeName+'-stops')
+	le.routes.forEach(function(re,ri,ra){
+		var thisRoute = thisLine .append('g').attr('id',re.routeName+'-route')
+		var thisPaths = thisRoute.append('g').attr('id',re.routeName+'-paths')
+		var thisStops = thisRoute.append('g').attr('id',re.routeName+'-stops')
 
-				thisPaths.append('path').data([re.stops]).attr('class','path')
-					.style('stroke',le.color).attr('d',d3.line()
-					.x(function(d){return lontrans(findStop(d.stopId).coordinates[0])})
-					.y(function(d){return lattrans(findStop(d.stopId).coordinates[1])}))
+		thisPaths.append('path').data([re.stops]).attr('class','path')
+			.style('stroke',le.color).attr('d',d3.line()
+			.x(function(d){return lontrans(findStop(d.stopId).coordinates[0])})
+			.y(function(d){return lattrans(findStop(d.stopId).coordinates[1])}))
 
-				re.stops.forEach(function(se,si,sa){
-					thisStops.append('circle').attr('class','stop')
-						.attr('cx',lontrans(findStop(se.stopId).coordinates[0]))
-						.attr('cy',lattrans(findStop(se.stopId).coordinates[1]))
-						.attr('r',5).style('stroke',le.color)
-				})
-			})
+		re.stops.forEach(function(se,si,sa){
+			thisStops.append('circle').attr('class','stop')
+				.attr('cx',lontrans(findStop(se.stopId).coordinates[0]))
+				.attr('cy',lattrans(findStop(se.stopId).coordinates[1]))
+				.attr('r',5).style('stroke',le.color)
 		})
+	})
+})
 
-		var metroStops = metro.append('g').attr('id','metroStops')
-		metroStop.forEach(function(e,i,a){
-			var thisStop = metroStops.append('g')
-				.attr('id','stop-'+e.id)
-				.attr('_id',e._id)
-			thisStop.append('circle')
-				.attr('cx',lontrans(e.coordinates[0]))
-				.attr('cy',lattrans(e.coordinates[1]))
-				.attr('r','3')
-			thisStop.append('text').text(e.name.zh)
-				.attr('text-anchor','middle')
-				.attr('x',lontrans(e.coordinates[0]) + 0)
-				.attr('y',lattrans(e.coordinates[1]) + 24)
-		})
+var metroStops = metro.append('g').attr('id','metroStops')
+metroStop.forEach(function(e,i,a){
+	var thisStop = metroStops.append('g')
+		.attr('id','stop-'+e.id)
+		.attr('_id',e._id)
+	thisStop.append('circle')
+		.attr('cx',lontrans(e.coordinates[0]))
+		.attr('cy',lattrans(e.coordinates[1]))
+		.attr('r','3')
+	thisStop.append('text').text(e.name.zh)
+		.attr('text-anchor','middle')
+		.attr('x',lontrans(e.coordinates[0]) + 0)
+		.attr('y',lattrans(e.coordinates[1]) + 24)
+})
 /*
 		var metroStopTable = d3.select('body').select('#metroStop-table').select('table')
 		metroStop.reverse().forEach(function(e,i,a){
@@ -69,6 +69,6 @@ getData('metroStop',function(metroStop){
 			tr.append('td').text(e.coordinates[1])
 		})
 */
-	})
-})
+//	})
+//})
 

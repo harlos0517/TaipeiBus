@@ -2,50 +2,102 @@ var bus = map.append('g').attr('id','bus')
 var busStops = bus .append('g').attr('id','busStops')
 
 function dis(a,b){
-	var sqsum = (a.lon-b.lon)*(a.lon-b.lon) + (a.lat-b.lat)*(a.lat-b.lat)
+	var sqsum = (a.longitude-b.lon)*(a.longitude-b.lon) + (a.latitude-b.lat)*(a.latitude-b.lat)
 	return Math.sqrt(sqsum)
 }
 
-busStop.BusInfo.forEach(function(e,i,a){
-	var subname = e.name.match(/\((.+)\)/)
-	var mainname = e.name.match(/(^[^\(]+)/)
-	e.subname = subname?subname[1]:undefined
-	e.mainname = mainname?mainname[1]:undefined
-})
-
-var busStopCopy = busStop.BusInfo.slice(0)
-/*
-busStop.BusInfo.forEach(function(e,i,a){
-	var sameStops = busStopCopy.filter(function(t){return (t.mainname==e.mainname && dis(e,t)<0.003)})
-	var pos = [0,0]
-	sameStops.forEach(function(se,si,sa){
-			pos[0]+=parseFloat(se.lon)
-			pos[1]+=parseFloat(se.lat)
-		if(si!==0){
-			busStopCopy.splice(busStopCopy.findIndex(function(t){return t.id==se.id}),1)
-		}
+busRoute.BusInfo.forEach((e,i,a)=>{
+	if (i>500) return
+	e.render = true
+	e.stops = []
+	var thisDetails = busDetail.BusInfo.filter(x=>(x.pathAttributeId==e.pathAttributeId))
+	thisDetails.sort((a,b)=>(a.sequenceNo-b.sequenceNo))
+	thisDetails.forEach((de,di,da)=>{
+		de.render = true
+		e.stops.push(de)
 	})
-	pos[0]/=sameStops.length
-	pos[1]/=sameStops.length
-
-	e.lon = pos[0]
-	e.lat = pos[1]
-
 })
-*/
-busStopCopy.forEach(function(e,i,a){
+
+busDetail.BusInfo.forEach((e,i,a)=>{
+	if (!e.render) return
+	var thisStop = busStop.BusInfo.find(x=>(x.Id==e.stopId))
+	if(thisStop) thisStop.render = true
+})
+
+
+busStop.BusInfo.forEach((e,i,a)=>{
+	var subname = e.nameZh.match(/\((.+)\)/)
+	var mainname = e.nameZh.match(/(^[^\(]+)/)
+	e.subname = subname?subname[1]:''
+	e.mainname = mainname?mainname[1]:''
+})
+
+var busGroup = []
+
+busStop.BusInfo.forEach((e,i,a)=>{
+	if (!e.render) return
+	var group = busGroup.find(x=>(x.mainname==e.mainname&&dis(e,x)<0.003))
+	if (group) {
+		var l = group.stops.length
+		group.lon = (group.lon*l + parseFloat(e.longitude))/(l+1)
+		group.lat = (group.lat*l + parseFloat(e.latitude ))/(l+1)
+		group.stops.push(e.Id)
+		e.group = group.id
+	}
+	else {
+		var thisId = busGroup.length + 1
+		busGroup.push({
+			'id' : thisId,
+			'mainname' : e.mainname,
+			'lon' : parseFloat(e.longitude),
+			'lat' : parseFloat(e.latitude),
+			'stops' : [e.Id]
+		})
+		e.group = thisId
+	}
+})
+
+
+var busRoutes = bus.append('g').attr('id','metroRoutes')
+busRoute.BusInfo.forEach((e,i,a)=>{
+	if (!e.render) return
+	if (!e.stops) return
+
+	e.stops.sort((a,b)=>(a.sequenceNo - b.sequenceNo))
+
+	var thisLine = busRoutes.append('g')
+		.attr('id',e.nameZh)
+		.attr('_id',e.Id)
+
+	var thisRoute = thisLine .append('g').attr('id',e.nameZh+'-route')
+	var thisPaths = thisRoute.append('g').attr('id',e.nameZh+'-paths')
+	var thisStops = thisRoute.append('g').attr('id',e.nameZh+'-stops')
+
+	var thisGroups = e.stops.map(e=>{
+		var thisStop = busStop.BusInfo.find(x=>(x.Id==e.stopId))
+	//	console.log(thisStop)
+		return busGroup.find(x=>(thisStop.group==x.id))
+	})
+
+	thisPaths.append('path').data([thisGroups]).attr('class','path')
+		.style('stroke','#666666').style('stroke-width','.5').attr('d',d3.line()
+		.x(d=>lontrans(d.lon))
+		.y(d=>lattrans(d.lat)))
+})
+/*
+busGroup.forEach((e,i,a)=>{
 	var thisStop = busStops.append('g')
 		.attr('id','stop-'+e.id)
 	thisStop.append('circle')
 		.attr('cx',lontrans(e.lon))
 		.attr('cy',lattrans(e.lat))
 		.attr('r','2')
-	thisStop.append('text').text(e.name)
+	thisStop.append('text').text(e.mainname)
 		.attr('text-anchor','middle')
 		.attr('x',lontrans(e.lon) + 0)
 		.attr('y',lattrans(e.lat) + 12)
 })
-
+*/
 
 // {
 //	"Id":25769,"routeId":11136,"nameZh":"北投市場(公館路)","nameEn":"Beitou Market(Gongguan)",
