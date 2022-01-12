@@ -1,0 +1,15 @@
+https://tcgbusfs.blob.core.windows.net/blobbus/GetPathDetail.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetCarInfo.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetOrgPathAttribute.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetProvider.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetRoute.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetTimeTable.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetSemiTimeTable.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetBusData.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetBusEvent.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetIStop.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetIStopPath.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetStop.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetCarUnusual.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetStopLocation.gz
+https://tcgbusfs.blob.core.windows.net/blobbus/GetEstimateTime.gz
