@@ -3,7 +3,7 @@
 /* Fonts */
 body {
 	font-family: 'Noto Sans TC', sans-serif;
-	font-weight: 300;
+	font-weight: 200;
 	color: #C3C3C3;
 	background-color: #333333;
 }
@@ -23,8 +23,8 @@ body {
 }
 
 #taipeiMap path {
-	stroke-width: 0.05px;
-	stroke: #FFFFFF;
+	stroke-width: 0.01px;
+	stroke: #00CCCC;
 }
 
 #metroStops circle{
@@ -46,18 +46,24 @@ body {
 
 #metroStops>g:hover>text {
 	font-size: 20px;
+	font-weight: 800;
 }
 
 #busStops circle{
-	fill: #000000;
+	fill: #FFFFFF;
 	transition: 100ms;
+	stroke: #000000;
+	stroke-width: .5px;
 }
 
 #busStops text {
-	fill: #000000;
+	fill: #FFFFFF;
 	font-size: 8px;
 	background-color: rgba(255,255,255,.5);
-	font-weight: 500;
+	font-weight: 200;
+	opacity: 0;
+	stroke: #000000;
+	stroke-width: .3px;
 	transition: 100ms;
 }
 
@@ -66,9 +72,24 @@ body {
 }
 
 #busStops>g:hover>text {
+	opacity: 1;
 	font-size: 12px;
+	font-weight: 800;
+}
+/*
+#busSections text {
+	fill: #FFFF88;
+	font-size: 8px;
+	background-color: rgba(255,255,255,.5);
+	font-weight: 200;
+	transition: 100ms;
 }
 
+#busSections>g:hover>text {
+	font-size: 12px;
+	font-weight: 800;
+}
+*/
 circle.stop{
 	stroke-width: 2px;
 	fill: #FFFFFF;
