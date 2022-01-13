@@ -1,10 +1,10 @@
 import { getData } from "../common"
 
-import { DataTypeName } from "../dataType"
+import { DataTypeName } from "../types"
 import { Stop } from "../../data/type/Stop"
 import { PathDetail } from "../../data/type/PathDetail"
 
-export const analyzeStop = () => { 
+export const analyzeStop = () => {
    console.log('檢查 Stop 中...')
   const stops = getData<Stop>(DataTypeName.Stop)
   const pathDetails = getData<PathDetail>(DataTypeName.PathDetail)

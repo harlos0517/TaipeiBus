@@ -1,7 +1,7 @@
 import FS from 'fs'
 
 import { getData } from './common'
-import { allDataType } from './dataType'
+import { allDataType } from './types'
 
 allDataType.forEach(name => {
   const obj = getData<any>(name)

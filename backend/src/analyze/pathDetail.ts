@@ -1,6 +1,6 @@
 import { getData } from "../common"
 
-import { DataTypeName } from "../dataType"
+import { DataTypeName } from "../types"
 import { PathDetail } from "../../data/type/PathDetail"
 import { Route } from "../../data/type/Route"
 

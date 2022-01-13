@@ -1,6 +1,6 @@
 import { getData, keyDiff } from "../common"
 
-import { DataTypeName } from "../dataType"
+import { DataTypeName } from "../types"
 import { Route } from "../../data/type/Route"
 
 export const analyzeRoute = () => {

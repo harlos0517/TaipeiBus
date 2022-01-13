@@ -1,6 +1,6 @@
 import { getData } from "../common"
 
-import { DataTypeName } from "../dataType"
+import { DataTypeName } from "../types"
 import { StopLocation } from "../../data/type/StopLocation"
 import { Stop } from "../../data/type/Stop"
 

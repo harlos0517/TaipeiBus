@@ -47,3 +47,8 @@ export type BusInfo<T> = {
   EssentialInfo: EssentialInfo
   BusInfo: Array<T>
 }
+
+export type Translatable = {
+  zh: string | null;
+  en: string | null;
+}

@@ -1,7 +1,10 @@
-import { getData, toString, toNumber } from "../common";
+import { getData, writeJson, toString, toNumber } from "../common";
 
-import { DataTypeName } from "../dataType";
+import { DataTypeName } from "../types";
 import { Route } from "../../data/type/Route";
+import { BeginEnd, Interval, RouteData, Schedule } from "../types/route";
+
+const FOUR_DIGIT = /^[0-9]{4}$/
 
 const toMinute = (v: string | null) => {
   if (!v) return null
@@ -11,10 +14,10 @@ const toMinute = (v: string | null) => {
   return hh * 60 + mm
 }
 
-const toFirstLast = (firstString: string, lastString: string) => {
+const toFirstLast = (firstString: string | null, lastString: string | null): BeginEnd => {
   const first = toMinute(firstString)
   const last  = toMinute( lastString)
-  if (!first || !last) return null
+  if (!first || !last) return { first, last }
   return {
     first,
     last: (last <= first) ? (last + 24 * 60) : last,
@@ -27,56 +30,62 @@ const toGoBackTime = (
   backFirst: string | null,
   backLast : string | null,
 ) => {
-  if (!goFirst || !goLast || !backFirst || !backLast) return null
   return {
       go: toFirstLast(  goFirst,   goLast),
     back: toFirstLast(backFirst, backLast),
   }
 }
 
-const toInterval = (peak: string | null, offpeak: string | null) => {
-  if (!peak || !offpeak) return null
-  if (!/^[0-9]{4}$/.test(peak) || !/^[0-9]{4}$/.test(offpeak)) return null
-  return {
-    peak: {
-      from: parseInt(peak.slice(0, 2)),
-      to: parseInt(peak.slice(2, 4)),
-    },
-    offpeak: {
-      from: parseInt(offpeak.slice(0, 2)),
-      to: parseInt(offpeak.slice(2, 4)),
-    },
+const toInterval = (
+  peakString: string | null,
+  offpeakString: string | null,
+  desc: string | null
+) => {
+  const peakLegal = !!peakString && FOUR_DIGIT.test(peakString)
+  const offpeakLegal = !!offpeakString && FOUR_DIGIT.test(offpeakString)
+  const peak: Interval = {
+    from: peakLegal ? parseInt(peakString.slice(0, 2)) : null,
+    to: peakLegal ? parseInt(peakString.slice(2, 4)) : null,
+    desc: toString(desc),
   }
+  const offpeak: Interval = {
+    from: offpeakLegal ? parseInt(offpeakString.slice(0, 2)) : null,
+    to: offpeakLegal ? parseInt(offpeakString.slice(2, 4)) : null,
+    desc: toString(desc),
+  }
+  return { peak, offpeak }
 }
 
 const toSchedule = (route: Route) => {
   return {
-    weekday: {
+    weekday: <Schedule>{
       ...toGoBackTime(
         route.goFirstBusTime,
         route.goLastBusTime,
         route.backFirstBusTime,
         route.backLastBusTime
       ),
-      desc: route.busTimeDesc,
-      interval: {
-        ...toInterval(route.peakHeadway, route.offPeakHeadway),
-        desc: route.holidayHeadwayDesc
-      },
+      interval: toInterval(
+        route.peakHeadway,
+        route.offPeakHeadway,
+        route.headwayDesc
+      ),
+      desc: toString(route.busTimeDesc),
     },
-    holiday: {
+    holiday: <Schedule>{
       ...toGoBackTime(
         route.holidayGoFirstBusTime,
         route.holidayGoLastBusTime,
         route.holidayBackFirstBusTime,
         route.holidayBackLastBusTime
       ),
-      interval: {
-        ...toInterval(route.holidayPeakHeadway, route.holidayOffPeakHeadway),
-        desc: route.holidayHeadwayDesc
-      },
-      desc: route.holidayBusTimeDesc,
-    },  
+      interval: toInterval(
+        route.holidayPeakHeadway,
+        route.holidayOffPeakHeadway,
+        route.holidayHeadwayDesc
+      ),
+      desc: toString(route.holidayBusTimeDesc),
+    },
   }
 }
 
@@ -84,12 +93,12 @@ const toSchedule = (route: Route) => {
 export const processRoute = () => {
   const routes = getData<Route>(DataTypeName.Route)
   const routeIds = [...new Set(routes.map(route => route.Id))]
-  const newRoutes = routeIds.map(routeId => {
+  const newRoutes: Array<RouteData> = routeIds.map(routeId => {
     const thisRoutes = routes.filter(route => route.Id === routeId)
     const route = thisRoutes[0]
     return {
       id: toString(routeId),
-      providerIds: thisRoutes.map(route => toString(route.providerId)),
+      providerIds: thisRoutes.map(route => toString(route.providerId)) as string[],
       name: {
         zh: toString(route.nameZh),
         en: toString(route.nameEn),
@@ -115,4 +124,5 @@ export const processRoute = () => {
       routeMapUrl: toString(route.roadMapUrl)
     }
   })
+  writeJson('../data/processed/routes.json', newRoutes)
 }

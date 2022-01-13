@@ -3,7 +3,7 @@ import FS from 'fs'
 import { getType, getTypingList } from './lib/typing'
 
 import { getData } from './common'
-import { allDataType, DataTypeName } from './dataType'
+import { allDataType, DataTypeName } from './types'
 
 import { analyzeRoute } from './analyze/route'
 import { analyzePathDetail } from './analyze/pathDetail'
