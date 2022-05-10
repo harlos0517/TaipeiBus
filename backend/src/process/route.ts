@@ -1,8 +1,9 @@
-import { getData, writeJson, toString, toNumber } from "../common";
+import { getData, writeJson, toString, toNumber, getArrFromSeq, getUniqueKeyArr } from '../common'
 
-import { DataTypeName } from "../types";
-import { Route } from "../../data/type/Route";
-import { BeginEnd, Interval, RouteData, Schedule } from "../types/route";
+import { DataTypeName } from '../types'
+import { Route } from '../../data/type/Route'
+import { Stop } from '../../data/type/Stop'
+import { BeginEnd, Interval, Schedule, RouteData } from '../types/route'
 
 const FOUR_DIGIT = /^[0-9]{4}$/
 
@@ -25,13 +26,13 @@ const toFirstLast = (firstString: string | null, lastString: string | null): Beg
 }
 
 const toGoBackTime = (
-    goFirst: string | null,
-    goLast : string | null,
+  goFirst: string | null,
+  goLast : string | null,
   backFirst: string | null,
   backLast : string | null,
 ) => {
   return {
-      go: toFirstLast(  goFirst,   goLast),
+    go: toFirstLast(  goFirst,   goLast),
     back: toFirstLast(backFirst, backLast),
   }
 }
@@ -39,7 +40,7 @@ const toGoBackTime = (
 const toInterval = (
   peakString: string | null,
   offpeakString: string | null,
-  desc: string | null
+  desc: string | null,
 ) => {
   const peakLegal = !!peakString && FOUR_DIGIT.test(peakString)
   const offpeakLegal = !!offpeakString && FOUR_DIGIT.test(offpeakString)
@@ -63,12 +64,12 @@ const toSchedule = (route: Route) => {
         route.goFirstBusTime,
         route.goLastBusTime,
         route.backFirstBusTime,
-        route.backLastBusTime
+        route.backLastBusTime,
       ),
       interval: toInterval(
         route.peakHeadway,
         route.offPeakHeadway,
-        route.headwayDesc
+        route.headwayDesc,
       ),
       desc: toString(route.busTimeDesc),
     },
@@ -77,12 +78,12 @@ const toSchedule = (route: Route) => {
         route.holidayGoFirstBusTime,
         route.holidayGoLastBusTime,
         route.holidayBackFirstBusTime,
-        route.holidayBackLastBusTime
+        route.holidayBackLastBusTime,
       ),
       interval: toInterval(
         route.holidayPeakHeadway,
         route.holidayOffPeakHeadway,
-        route.holidayHeadwayDesc
+        route.holidayHeadwayDesc,
       ),
       desc: toString(route.holidayBusTimeDesc),
     },
@@ -92,13 +93,20 @@ const toSchedule = (route: Route) => {
 
 export const processRoute = () => {
   const routes = getData<Route>(DataTypeName.Route)
-  const routeIds = [...new Set(routes.map(route => route.Id))]
+  const stops = getData<Stop>(DataTypeName.Stop)
+
+  const routeIds = getUniqueKeyArr(routes, route => route.Id)
   const newRoutes: Array<RouteData> = routeIds.map(routeId => {
     const thisRoutes = routes.filter(route => route.Id === routeId)
     const route = thisRoutes[0]
-    return {
-      id: toString(routeId),
-      providerIds: thisRoutes.map(route => toString(route.providerId)) as string[],
+    const thisStops = stops.filter(s => s.routeId === routeId)
+
+    const providerIds = getUniqueKeyArr(thisRoutes, route => toString(route.providerId))
+    const stopIds = getArrFromSeq(thisStops, d => d.seqNo, d => toString(d.Id))
+    const pathIds = getUniqueKeyArr(thisRoutes, route => toString(route.pathAttributeId))
+    const newRoute: RouteData =  {
+      id: String(routeId),
+      providerIds: providerIds as string[],
       name: {
         zh: toString(route.nameZh),
         en: toString(route.nameEn),
@@ -121,8 +129,11 @@ export const processRoute = () => {
         zh: toString(route.ticketPriceDescriptionZh),
         en: toString(route.ticketPriceDescriptionEn),
       },
-      routeMapUrl: toString(route.roadMapUrl)
+      routeMapUrl: toString(route.roadMapUrl),
+      stopIds,
+      pathIds,
     }
+    return newRoute
   })
   writeJson('../data/processed/routes.json', newRoutes)
 }

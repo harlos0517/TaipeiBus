@@ -14,7 +14,7 @@ export enum DataTypeName {
   Stop = 'Stop',
   StopLocation = 'StopLocation',
   TimeTable = 'TimeTable',
-};
+}
 
 export const allDataType = [
   DataTypeName.BusData,
@@ -51,4 +51,15 @@ export type BusInfo<T> = {
 export type Translatable = {
   zh: string | null;
   en: string | null;
+}
+
+export type Coordinate = {
+  lon: number
+  lat: number
+}
+
+export type StopInfo = {
+  stopId: string | null,
+  locationId: string | null
+  groupId: string | null
 }

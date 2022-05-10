@@ -2,20 +2,21 @@
   g#stop-location
     g(v-for="stop in stopLocations" :key="stop.id")
       circle(
-        :cx="lontrans(stop.lon)"
-        :cy="lattrans(stop.lat)"
+        :cx="lontrans(stop.coord.lon)"
+        :cy="lattrans(stop.coord.lat)"
         r="2"
       )
       text(
         text-anchor="middle"
-        :x="lontrans(stop.lon)"
-        :y="lattrans(stop.lat) - 12"
+        :x="lontrans(stop.coord.lon)"
+        :y="lattrans(stop.coord.lat) - 12"
       )
         | {{ stop.name }}
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { BusStopGroup } from '~/util/busDataType'
 
 import { getData, DataType } from '../util'
 
@@ -24,9 +25,9 @@ export default class extends Vue {
   @Prop(Function) lontrans!: Function
   @Prop(Function) lattrans!: Function
 
-  stopLocations = []
+  stopLocations = [] as any[]
   async mounted() {
-    const data = await getData(DataType.StopLocation)
+    const data = await getData<BusStopGroup>(DataType.StopGroup)
     this.stopLocations = data
   }
 }

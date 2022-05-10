@@ -3,8 +3,9 @@
     svg(:width="mapwd" :height="mapht")
       TaipeiMap(:style="{ transform: `scale(${scale})` }")
       Grid(:lontrans="lontrans" :lattrans="lattrans" :width="mapwd" :height="mapht")
+      RoutePath(:lontrans="lontrans" :lattrans="lattrans")
+      Section(:lontrans="lontrans" :lattrans="lattrans")
       StopLocation(:lontrans="lontrans" :lattrans="lattrans")
-      Route(:lontrans="lontrans" :lattrans="lattrans")
 </template>
 
 <script lang="ts">
