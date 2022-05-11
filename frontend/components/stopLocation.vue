@@ -15,41 +15,51 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { defineComponent, ref, onMounted } from '@nuxtjs/composition-api'
+
 import { BusStopGroup } from '~/util/busDataType'
-
 import { getData, DataType } from '../util'
+import {
+  lontrans,
+  lattrans,
+} from '@/util/map'
 
-@Component
-export default class extends Vue {
-  @Prop(Function) lontrans!: Function
-  @Prop(Function) lattrans!: Function
+export default defineComponent({
+  setup() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stopLocations = ref<Array<any>>([])
 
-  stopLocations = [] as any[]
-  async mounted() {
-    const data = await getData<BusStopGroup>(DataType.StopGroup)
-    this.stopLocations = data
-  }
-}
+    onMounted(async() => {
+      const data = await getData<BusStopGroup>(DataType.StopGroup)
+      stopLocations.value = data
+    })
+
+    return {
+      stopLocations,
+      lontrans,
+      lattrans,
+    }
+  },
+})
 </script>
 
 <style lang="sass" scoped>
 #stop-location
   circle
     fill: #FFFFFF
-    transition: 100ms
     stroke: #000000
     stroke-width: .5px
+    // transition: 100ms
 
   text
     fill: #FFFFFF
     font-size: 8px
     background-color: rgba(255,255,255,.5)
-    font-weight: 200
     opacity: 0
+    paint-order: stroke
     stroke: #000000
-    stroke-width: .3px
-    transition: 100ms
+    stroke-width: .5px
+    // transition: 100ms
 
   &>g:hover
     &>circle
@@ -57,6 +67,5 @@ export default class extends Vue {
     &>text
       opacity: 1
       font-size: 12px
-      font-weight: 800
 
 </style>

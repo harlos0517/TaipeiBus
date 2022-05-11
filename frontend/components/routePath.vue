@@ -9,31 +9,42 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api'
 
 import * as d3 from 'd3'
 
 import { DataType, getData } from '~/util'
 
-@Component
-export default class extends Vue {
-  @Prop(Function) lontrans!: Function
-  @Prop(Function) lattrans!: Function
+import {
+  lontrans,
+  lattrans,
+} from '@/util/map'
 
-  routePath = [] as Array<any>
+export default defineComponent({
+  setup() {
+    const routePath = ref<Array<any>>([])
 
-  async mounted() {
-    const data = (await getData(DataType.RoutePath)) as any
-    this.routePath = data.features.map((p: any) => {
-      const coords = p.geometry.coordinates
-      const line = d3.line()(coords.map(([lon, lat]: [number, number]) => [
-        this.lontrans(lon),
-        this.lattrans(lat),
-      ]))
-      return { id: p.properties.BAD_CHINES, line }
+    onMounted(async() => {
+      const data = (await getData(DataType.RoutePath)) as any
+      routePath.value = data.features.map((p: any) => {
+        const coords = p.geometry.coordinates
+        const line = d3.line()(coords.map(([lon, lat]: [number, number]) => [
+          lontrans(lon),
+          lattrans(lat),
+        ]))
+        return { id: p.properties.BAD_CHINES, line }
+      })
     })
-  }
-}
+
+    return {
+      routePath,
+      lontrans,
+      lattrans,
+    }
+  },
+})
 </script>
 
 <style lang="sass" scoped>
@@ -42,5 +53,4 @@ export default class extends Vue {
     fill: none
     stroke: #FF3344
     stroke-width: 1px
-
 </style>

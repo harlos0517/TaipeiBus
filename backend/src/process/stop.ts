@@ -12,7 +12,7 @@ export const processStop = () => {
     routeId: String(stop.routeId),
     name: {
       zh: toString(stop.nameZh),
-      en: toString(stop.nameEn),
+      en: toString(stop.nameEn || null),
     },
     goBack: stop.goBack as GoBack,
     stopLocationId: toString(stop.stopLocationId),

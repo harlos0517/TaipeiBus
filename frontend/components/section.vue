@@ -9,37 +9,44 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { defineComponent, ref, onMounted } from '@nuxtjs/composition-api'
 
 import * as d3 from 'd3'
 
 import { getData, DataType } from '../util'
 import { BusStopGroup, Section } from '../util/busDataType'
+import {
+  lontrans,
+  lattrans,
+} from '@/util/map'
 
-@Component
-export default class extends Vue {
-  @Prop(Function) lontrans!: Function
-  @Prop(Function) lattrans!: Function
+export default defineComponent({
+  setup() {
+    const sections = ref<Array<Section & { line: string }>>([])
+    const groups = ref<Array<BusStopGroup>>([])
 
-  sections = [] as Array<Section & { line: string }>
-  groups = [] as Array<BusStopGroup>
-  async mounted() {
-    this.sections = (await getData<Section>(DataType.Section))
-      .map(x => ({ ... x, line: '' }))
-    this.groups = await getData<BusStopGroup>(DataType.StopGroup)
+    onMounted(async() => {
+      sections.value = (await getData<Section>(DataType.Section))
+        .map(x => ({ ... x, line: '' }))
+      groups.value = await getData<BusStopGroup>(DataType.StopGroup)
 
-    this.sections.forEach(sec => {
-      const fromGroup = this.groups.find(g => g.id === sec.from)
-      const toGroup = this.groups.find(g => g.id === sec.to)
-      if (!fromGroup || !toGroup) return
-      const line = d3.line()([
-        [this.lontrans(fromGroup.coord.lon), this.lattrans(fromGroup.coord.lat)],
-        [this.lontrans(toGroup.coord.lon), this.lattrans(toGroup.coord.lat)],
-      ])
-      sec.line = line || ''
+      sections.value.forEach(sec => {
+        const fromGroup = groups.value.find(g => g.id === sec.from)
+        const toGroup = groups.value.find(g => g.id === sec.to)
+        if (!fromGroup || !toGroup) return
+        const line = d3.line()([
+          [lontrans(fromGroup.coord.lon), lattrans(fromGroup.coord.lat)],
+          [lontrans(toGroup.coord.lon), lattrans(toGroup.coord.lat)],
+        ])
+        sec.line = line || ''
+      })
     })
-  }
-}
+
+    return {
+      sections,
+    }
+  },
+})
 </script>
 
 <style lang="sass" scoped>

@@ -1,6 +1,6 @@
 export type Translatable = {
-  zh: string | null;
-  en: string | null;
+  zh: string | null
+  en: string | null
 }
 
 export type Coordinate = {
@@ -9,7 +9,7 @@ export type Coordinate = {
 }
 
 export type StopInfo = {
-  stopId: string | null,
+  stopId: string | null
   locationId: string | null
   groupId: string | null
 }
@@ -50,9 +50,9 @@ export enum GoBack {
 
 
 export type BusPath = {
-  id: string;
-  routeId: string;
-  name: Translatable;
+  id: string
+  routeId: string
+  name: Translatable
   stopInfos: Array<StopInfo>
 }
 

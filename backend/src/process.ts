@@ -3,7 +3,14 @@ import { processPath } from './process/path'
 import { processStop } from './process/stop'
 import { processStopLocation } from './process/stopLocation'
 
-processRoute()
-processPath()
-processStop()
-processStopLocation()
+export const process = () => {
+  console.log('處理中...')
+  processRoute()
+  processPath()
+  processStop()
+  processStopLocation()
+  console.log('處理完成。')
+}
+
+if (require.main === module)
+  process()
