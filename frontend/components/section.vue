@@ -6,24 +6,39 @@
       :id="`route-${sec.from}-${sec.to}`"
       :d="sec.line"
     )
+    path.selected(
+      v-for="(sec, i) in selectedSections"
+      :key="sec.id + '-selected'"
+      :id="`route-${sec.from}-${sec.to}-selected`"
+      :d="sec.line"
+    )
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from '@nuxtjs/composition-api'
+import { defineComponent, ref, onMounted, PropType, computed, toRefs } from '@nuxtjs/composition-api'
 
 import * as d3 from 'd3'
 
 import { getData, DataType } from '../util'
-import { BusStopGroup, Section } from '../util/busDataType'
+import { BusRoute, BusStopGroup, Section } from '../util/busDataType'
 import {
   lontrans,
   lattrans,
 } from '@/util/map'
 
 export default defineComponent({
-  setup() {
+  props: {
+    selectedPath: { type: Object as PropType<BusRoute>, default: null },
+  },
+  setup(props) {
+    const { selectedPath } = toRefs(props)
+
     const sections = ref<Array<Section & { line: string }>>([])
     const groups = ref<Array<BusStopGroup>>([])
+
+    const selectedSections = computed(
+      () => sections.value.filter(sec => selectedPath.value?.stopInfos.map(s => s.sectionId).includes(sec.id)),
+    )
 
     onMounted(async() => {
       sections.value = (await getData<Section>(DataType.Section))
@@ -44,6 +59,7 @@ export default defineComponent({
 
     return {
       sections,
+      selectedSections,
     }
   },
 })
@@ -53,7 +69,12 @@ export default defineComponent({
 #sections
   path
     fill: none
-    stroke: #88DDDD
+    stroke: #005555
     stroke-width: 1px
+    &.selected
+      fill: none
+      stroke: #00FF00
+      stroke-width: 2px
+
 
 </style>

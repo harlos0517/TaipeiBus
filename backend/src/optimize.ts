@@ -14,6 +14,7 @@ export const optimize = () => {
   const stops = readJson<Array<StopData>>('../data/processed/stops.json')
   const stopLocations = readJson<Array<StopLocationData>>('../data/processed/stopLocations.json')
 
+  writeJson('../data/optimized/stops.json', stops)
 
   // generate stopGroups
   const stopGroups = [] as Array<BusStopGroup>
@@ -70,6 +71,7 @@ export const optimize = () => {
       ? stopLocs.find(l => l.id === stop.stopLocationId) || null
       : null
     return {
+      sectionId: null,
       stopId,
       locationId: stop?.stopLocationId || null,
       groupId: stopLoc?.groupId || null,
@@ -91,36 +93,39 @@ export const optimize = () => {
     const { stopIds: _, ...newRoute } = path
     return { ...newRoute, stopInfos }
   })
-  writeJson('../data/optimized/routePaths.json', newPaths)
 
 
   const sections = [] as Array<{
+    id: string
     from: string
     to: string
     count: number
   }>
 
   newPaths.forEach(path => {
-    let prevGroupId = null as string | null
+    let prevStopInfo = null as StopInfo | null
     path.stopInfos.forEach(stopInfo => {
-      if (prevGroupId && stopInfo.groupId) {
-        const sec = sections
-          .find(s => s.from === prevGroupId && s.to === stopInfo.groupId)
+      if (prevStopInfo?.groupId && stopInfo.groupId) {
+        let sec = sections
+          .find(s => s.from === prevStopInfo?.groupId && s.to === stopInfo.groupId)
         if (sec) sec.count ++
         else {
-          sections.push({
-            from: prevGroupId,
+          sec = {
+            id: String(sections.length),
+            from: prevStopInfo.groupId,
             to: stopInfo.groupId,
             count: 1,
-          })
+          }
+          sections.push(sec)
         }
+        prevStopInfo.sectionId = sec.id
       }
-      prevGroupId = stopInfo.groupId
+      prevStopInfo = stopInfo
     })
   })
+  writeJson('../data/optimized/paths.json', newPaths)
   writeJson('../data/optimized/sections.json', sections)
 
-  writeJson('../data/optimized/stops.json', stops)
 
   console.log('優化完成。')
 }

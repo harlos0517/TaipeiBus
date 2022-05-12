@@ -9,12 +9,14 @@ export type Coordinate = {
 }
 
 export type StopInfo = {
+  sectionId: string | null
   stopId: string | null
   locationId: string | null
   groupId: string | null
 }
 
 export type Section = {
+  id: string
   from: string
   to: string
   count: number

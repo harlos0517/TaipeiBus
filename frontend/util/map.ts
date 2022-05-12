@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 
-export const scale = 20
+export const scale = 5
 export const mapwd = 800 * scale
 export const mapht = 692 * scale
 

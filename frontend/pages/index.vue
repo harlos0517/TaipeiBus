@@ -4,12 +4,13 @@
       TaipeiMap(:style="{ transform: `scale(${scale})` }")
       Grid
       //- RoutePath
-      Section
+      Section(:selectedPath="selectedPath")
       StopLocation
+    RouteSelector(ref="routeSelectorRef")
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { computed, defineComponent, ref } from '@nuxtjs/composition-api'
 
 import {
   scale,
@@ -18,10 +19,21 @@ import {
   lontrans,
   lattrans,
 } from '@/util/map'
+import { BusPath, BusRoute } from '~/util/busDataType'
 
 export default defineComponent({
   setup() {
+    const routeSelectorRef = ref<HTMLElement & {
+      selectedRoute: BusRoute | null
+      selectedPath: BusPath | null
+    } | null>(null)
+    const selectedRoute = computed(() => routeSelectorRef.value?.selectedRoute)
+    const selectedPath = computed(() => routeSelectorRef.value?.selectedPath)
+
     return {
+      routeSelectorRef,
+      selectedRoute,
+      selectedPath,
       scale,
       mapwd,
       mapht,

@@ -49,8 +49,8 @@ export type BusInfo<T> = {
 }
 
 export type Translatable = {
-  zh: string | null;
-  en: string | null;
+  zh: string | null
+  en: string | null
 }
 
 export type Coordinate = {
@@ -59,7 +59,8 @@ export type Coordinate = {
 }
 
 export type StopInfo = {
-  stopId: string | null,
+  stopId: string | null
   locationId: string | null
   groupId: string | null
+  sectionId: string | null
 }
