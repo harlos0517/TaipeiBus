@@ -3,6 +3,7 @@ import axios from 'axios'
 // import { BusInfo } from './busDataType'
 
 export enum DataType {
+  BusData = 'busData',
   Route = 'route',
   Path = 'path',
   Stop = 'stop',

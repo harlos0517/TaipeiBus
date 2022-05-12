@@ -1,6 +1,7 @@
 import { readJson, writeJson, getArrAvg, dis } from './common'
 
 import { StopInfo } from './types'
+import { Bus } from './types/busData'
 import { BusPath, PathData } from './types/path'
 import { BusRoute, RouteData } from './types/route'
 import { StopData } from './types/stop'
@@ -13,8 +14,10 @@ export const optimize = () => {
   const routes = readJson<Array<RouteData>>('../data/processed/routes.json')
   const stops = readJson<Array<StopData>>('../data/processed/stops.json')
   const stopLocations = readJson<Array<StopLocationData>>('../data/processed/stopLocations.json')
+  const busData = readJson<Array<Bus>>('../data/processed/busData.json')
 
   writeJson('../data/optimized/stops.json', stops)
+  writeJson('../data/optimized/busDatas.json', busData)
 
   // generate stopGroups
   const stopGroups = [] as Array<BusStopGroup>

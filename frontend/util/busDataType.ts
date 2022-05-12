@@ -98,3 +98,10 @@ export type BusStopGroup = {
   locIds: Array<string>
   coord: Coordinate
 }
+
+export type Bus = {
+  busId: string
+  carId: string
+  time: string
+  coord: Coordinate
+}

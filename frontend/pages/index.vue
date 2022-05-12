@@ -5,6 +5,7 @@
       Grid
       //- RoutePath
       Section(:selectedPath="selectedPath")
+      Bus
       StopLocation
     RouteSelector(ref="routeSelectorRef")
 </template>
